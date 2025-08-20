@@ -16,7 +16,7 @@ public class AccountDao {
 
     // Find accounts of a customer
     public List<Account> findByCustomerId(long customerId) throws SQLException {
-        String sql = "SELECT * FROM accounts WHERE customer_id=? ORDER BY opened_at DESC";
+        String sql = "SELECT * FROM accounts WHERE customer_id=? AND status <> 'CLOSED' ORDER BY opened_at DESC";
         List<Account> accounts = new ArrayList<>();
         try (Connection con = Db.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -40,7 +40,7 @@ public class AccountDao {
 
     // Count accounts of a certain type belonging to a customer
     public int countByCustomerAndType(long customerId, String type) throws SQLException {
-        String sql = "SELECT COUNT(*) FROM accounts WHERE customer_id=? AND type=?";
+        String sql = "SELECT COUNT(*) FROM accounts WHERE customer_id=? AND type=? AND status='ACTIVE'";
         try (Connection con = Db.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setLong(1, customerId);

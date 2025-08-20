@@ -1,0 +1,241 @@
+/* Custom Styles for Bank Application */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f6fb;
+    color: #2c2c2c;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Sticky Footer Fix */
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+main { flex: 1; }
+
+/* Logout button */
+.navbar .btn-light {
+  background: #0dcaf0;
+  color: #000 !important;
+  border: none;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.navbar .btn-light:hover {
+  background: #05b3d6;
+  transform: scale(1.05);
+}
+
+
+/* Page Headers */
+.page-header {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeInDown 1s ease;
+}
+
+/* Card Styling */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0px 6px 15px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Buttons */
+.btn-custom,
+.btn-gradient {
+    background: linear-gradient(45deg, #0072ff, #00c6ff);
+    color: #fff;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-weight: 500;
+    border: none;
+    transition: all 0.3s ease-in-out;
+}
+.btn-custom:hover,
+.btn-gradient:hover {
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    transform: scale(1.05);
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.25);
+}
+
+/* Footer Styling */
+.footer {
+    background: linear-gradient(90deg, #000000, #1c1c1c, #2b2b2b);
+    color: #e0e0e0;
+    text-align: center;
+    padding: 20px 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-link {
+    color: #ccc;
+    margin: 0 10px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s ease;
+}
+.footer-link::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; left: 0;
+    width: 0;
+    height: 1px;
+    background: #00c6ff;
+    transition: width 0.3s ease-in-out;
+}
+.footer-link:hover {
+    color: #00c6ff;
+}
+.footer-link:hover::after {
+    width: 100%;
+}
+
+.footer-icon {
+    font-size: 1.3rem;
+    margin: 0 8px;
+    color: #bbb;
+    transition: transform 0.3s, color 0.3s;
+}
+.footer-icon:hover {
+    transform: scale(1.2);
+    color: #00c6ff;
+}
+
+/* Inputs & Selects */
+.stylish-input,
+.stylish-select {
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  transition: all 0.3s ease;
+}
+.stylish-input:focus,
+.stylish-select:focus {
+  border-color: #0072ff;
+  box-shadow: 0 0 8px rgba(0, 114, 255, 0.4);
+}
+
+/* Glow Buttons */
+.glow-btn {
+  box-shadow: 0 0 15px rgba(0,114,255,0.5);
+  animation: glowPulse 2s infinite alternate;
+}
+@keyframes glowPulse {
+  from { box-shadow: 0 0 5px rgba(0,114,255,0.3); }
+  to   { box-shadow: 0 0 20px rgba(0,198,255,0.8); }
+}
+
+/* Animations */
+@keyframes fadeInDown {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Common DataTable Enhancements */
+
+/* Table Wrapper */
+.dataTables_wrapper {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 1rem;
+}
+
+/* Table Base */
+table.dataTable {
+  border-collapse: separate !important;
+  border-spacing: 0 8px !important;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Header */
+table.dataTable thead th {
+  background: linear-gradient(135deg, #1f1f1f, #3a3a3a);
+  color: #f1f1f1;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px;
+  border: none;
+}
+
+/* Hover & Row Striping */
+table.dataTable tbody tr {
+  background: #fafafa;
+  transition: all 0.25s ease-in-out;
+}
+table.dataTable tbody tr:nth-child(even) {
+  background: #f0f2f5;
+}
+table.dataTable tbody tr:hover {
+  background: #e6f0ff !important;
+  transform: scale(1.01);
+}
+
+/* Table Cells */
+table.dataTable tbody td {
+  padding: 12px 14px;
+  border-top: none;
+  vertical-align: middle;
+  font-size: 0.95rem;
+}
+
+/* Pagination */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  background: #fff;
+  border: 1px solid #ccc;
+  margin: 0 3px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  background: linear-gradient(135deg, #111, #333);
+  color: #fff !important;
+  border: none;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background: #222;
+  color: #fff !important;
+  border: none;
+}
+
+/* Search Box */
+.dataTables_wrapper .dataTables_filter input {
+  border-radius: 8px;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  margin-left: 8px;
+  transition: 0.3s;
+}
+.dataTables_wrapper .dataTables_filter input:focus {
+  border-color: #111;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Length & Info */
+.dataTables_wrapper .dataTables_length select {
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+.dataTables_wrapper .dataTables_info {
+  margin-top: 10px;
+  color: #666;
+  font-size: 0.9rem;
+}
+

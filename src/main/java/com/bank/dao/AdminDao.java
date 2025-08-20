@@ -97,7 +97,7 @@ public class AdminDao {
         String sql = "SELECT a.id, a.account_number, a.type, a.status, a.balance, a.opened_at, " +
                      "c.first_name, c.last_name " +
                      "FROM accounts a JOIN customers c ON a.customer_id = c.id " +
-                     "ORDER BY a.opened_at DESC";
+                     "WHERE a.status <>'CLOSED' ORDER BY a.opened_at DESC";
 
         List<Account> accounts = new ArrayList<>();
         try (Connection con = Db.getConnection();
