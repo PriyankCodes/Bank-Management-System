@@ -21,7 +21,7 @@ public class TransferServlet extends HttpServlet {
         Long userId = (Long) req.getSession().getAttribute("userId");
         String role = (String) req.getSession().getAttribute("role");
         if (userId == null || !"CUSTOMER".equals(role)) {
-            resp.sendRedirect(req.getContextPath() + "/auth");
+            resp.sendRedirect(req.getContextPath() + "/AuthServlet");
             return;
         }
         try {
@@ -39,7 +39,7 @@ public class TransferServlet extends HttpServlet {
         Long userId = (Long) req.getSession().getAttribute("userId");
         String role = (String) req.getSession().getAttribute("role");
         if (userId == null || !"CUSTOMER".equals(role)) {
-            resp.sendRedirect(req.getContextPath() + "/auth");
+            resp.sendRedirect(req.getContextPath() + "/AuthServlet");
             return;
         }
         try {

@@ -17,6 +17,15 @@ public class FixedDeposit {
 		this.startDate = startDate;
 	}
 
+	private String fd_number;
+
+	public String getFd_number() {
+	return fd_number;
+}
+
+public void setFd_number(String fd_number) {
+	this.fd_number = fd_number;
+}
 	private String startDate;
 	private Timestamp maturityDate;
 	private BigDecimal interestRate;

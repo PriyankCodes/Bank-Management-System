@@ -28,7 +28,7 @@ public class FixedDepositServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long userId = (Long) req.getSession().getAttribute("userId");
         if (userId == null) {
-            resp.sendRedirect(req.getContextPath() + "/auth");
+            resp.sendRedirect(req.getContextPath() + "/AuthServlet");
             return;
         }
         try {
@@ -55,7 +55,7 @@ public class FixedDepositServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long userId = (Long) req.getSession().getAttribute("userId");
         if (userId == null) {
-            resp.sendRedirect(req.getContextPath() + "/auth");
+            resp.sendRedirect(req.getContextPath() + "/AuthServlet");
             return;
         }
         try {

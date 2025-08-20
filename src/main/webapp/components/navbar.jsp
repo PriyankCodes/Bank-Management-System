@@ -84,8 +84,7 @@
           </c:when>
 
           <c:otherwise>
-            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/auth/login"><i class="bi bi-box-arrow-in-right"></i> Login</a></li>
-            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/auth/register"><i class="bi bi-pencil-square"></i> Register</a></li>
+        
           </c:otherwise>
         </c:choose>
       </ul>

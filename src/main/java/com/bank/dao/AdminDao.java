@@ -40,7 +40,7 @@ public class AdminDao {
 
     public int countSoftDeletedCustomers() throws SQLException {
         // You may implement soft delete with an 'is_deleted' boolean column, otherwise return 0
-        String sql = "SELECT COUNT(*) FROM customers WHERE is_deleted = TRUE";
+        String sql = "SELECT COUNT(*) FROM users WHERE status = 'DISABLED'";
         try (Connection con = Db.getConnection();
              Statement st = con.createStatement();
              ResultSet rs = st.executeQuery(sql)) {

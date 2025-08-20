@@ -110,6 +110,8 @@ public class FixedDepositDao {
         	    FixedDeposit fd = new FixedDeposit();
         	    fd.setId(rs.getLong("id"));
         	    fd.setCustomerId(rs.getLong("customer_id"));
+        	    fd.setFdNumber(rs.getString("fd_number"));
+
         	    fd.setPrincipal(rs.getBigDecimal("principal"));
         	    fd.setTenureMonths(rs.getInt("tenure_months"));
         	    fd.setStatus(rs.getString("status"));

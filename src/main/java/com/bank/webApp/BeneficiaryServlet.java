@@ -24,7 +24,7 @@ public class BeneficiaryServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Long userId = (Long) req.getSession().getAttribute("userId");
 		if (userId == null) {
-			resp.sendRedirect(req.getContextPath() + "/auth");
+			resp.sendRedirect(req.getContextPath() + "/AuthServlet");
 			return;
 		}
 		String action = req.getParameter("action");
@@ -61,7 +61,7 @@ public class BeneficiaryServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Long userId = (Long) req.getSession().getAttribute("userId");
 		if (userId == null) {
-			resp.sendRedirect(req.getContextPath() + "/auth");
+			resp.sendRedirect(req.getContextPath() + "/AuthServlet");
 			return;
 		}
 		String action = req.getParameter("action");
