@@ -76,6 +76,9 @@ public class BeneficiaryService {
         if (bankName == null || bankName.trim().length() < 2) {
             throw new IllegalArgumentException("Invalid bank name");
         }
+        if (!isAccountExists(accountNumber)) {
+            throw new IllegalArgumentException("Beneficiary account number does not exist in the bank.");
+        }
 
         // Update fields
         b.setName(name.trim());

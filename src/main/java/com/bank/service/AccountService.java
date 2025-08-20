@@ -14,7 +14,6 @@ public class AccountService {
 	private final AccountDao accountDao = new AccountDao();
 	private final TransactionDao transactionDao = new TransactionDao();
 
-
 	public boolean canCreateAccount(long customerId, String type) throws SQLException {
 		if (type == null)
 			return false;
@@ -50,53 +49,50 @@ public class AccountService {
 			return false;
 		}
 	}
-	
+
 	public long findAccountIdByAccountNumber(String accountNumber) throws SQLException {
-	    return accountDao.findIdByAccountNumber(accountNumber);
+		return accountDao.findIdByAccountNumber(accountNumber);
 	}
-	
-	 public String getAccountNumberById(long accountId) throws SQLException {
-	        return accountDao.getAccountNumberById(accountId);
-	    }
-	 
-	 public boolean deposit(long customerId, String accountNumber, BigDecimal amount) throws SQLException {
-	        long accountId = accountDao.findIdByAccountNumber(accountNumber);
-	        // You can add ownership validation if required here
 
-	        accountDao.credit(accountId, amount);
+	public String getAccountNumberById(long accountId) throws SQLException {
+		return accountDao.getAccountNumberById(accountId);
+	}
 
-	        String ref = "DEP" + System.currentTimeMillis();
-	        transactionDao.addTransaction(accountId, "CREDIT", amount, ref);
+	public boolean deposit(long customerId, String accountNumber, BigDecimal amount) throws SQLException {
+		long accountId = accountDao.findIdByAccountNumber(accountNumber);
+		// You can add ownership validation if required here
 
-	        return true;
-	    }
+		accountDao.credit(accountId, amount);
 
-	    public boolean withdraw(long customerId, String accountNumber, BigDecimal amount) throws SQLException {
-	        long accountId = accountDao.findIdByAccountNumber(accountNumber);
+		String ref = "DEP" + System.currentTimeMillis();
+		transactionDao.addTransaction(accountId, "CREDIT", amount, ref);
 
-	        BigDecimal balance = accountDao.getBalance(accountId);
-	        if (balance == null || balance.compareTo(amount) < 0) {
-	            return false; // insufficient balance
-	        }
-	        BigDecimal minBalance = new BigDecimal("1000");
-	        if (balance.subtract(amount).compareTo(minBalance) < 0) {
-	            return false; // minimum balance rule
-	        }
+		return true;
+	}
 
-	        accountDao.debit(accountId, amount);
+	public boolean withdraw(long customerId, String accountNumber, BigDecimal amount) throws SQLException {
+		long accountId = accountDao.findIdByAccountNumber(accountNumber);
 
-	        String ref = "WDR" + System.currentTimeMillis();
-	        transactionDao.addTransaction(accountId, "DEBIT", amount, ref);
+		BigDecimal balance = accountDao.getBalance(accountId);
+		if (balance == null || balance.compareTo(amount) < 0) {
+			return false; // insufficient balance
+		}
+		BigDecimal minBalance = new BigDecimal("1000");
+		if (balance.subtract(amount).compareTo(minBalance) < 0) {
+			return false; // minimum balance rule
+		}
 
-	        return true;
-	    }
+		accountDao.debit(accountId, amount);
 
-	    public BigDecimal getBalanceByAccountNumber(String accountNumber) throws SQLException {
-	        long accountId = accountDao.findIdByAccountNumber(accountNumber);
-	        return accountDao.getBalance(accountId);
-	    }
+		String ref = "WDR" + System.currentTimeMillis();
+		transactionDao.addTransaction(accountId, "DEBIT", amount, ref);
 
+		return true;
+	}
 
-	
-	
+	public BigDecimal getBalanceByAccountNumber(String accountNumber) throws SQLException {
+		long accountId = accountDao.findIdByAccountNumber(accountNumber);
+		return accountDao.getBalance(accountId);
+	}
+
 }

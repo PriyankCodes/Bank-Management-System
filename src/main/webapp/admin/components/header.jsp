@@ -1,11 +1,15 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%
+  String pageTitle = "Admin Portal";
+ 
+%>  
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title><c:out value="${param.pageTitle != null ? param.pageTitle : 'Admin Panel'}"/></title>
-  
+   <title><%= pageTitle %></title>
 
    <!-- Bootstrap 5 CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">

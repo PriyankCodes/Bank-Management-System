@@ -135,7 +135,9 @@
             responsive: true,
             language: {
                 search: "🔍 Filter records:"
-            }
+            },
+            "order": [[0, "desc"]] // <-- 0 = first column (Date), desc = descending
+
         });
     });
 </script>

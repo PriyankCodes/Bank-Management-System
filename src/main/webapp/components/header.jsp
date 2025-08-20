@@ -1,9 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-  String pageTitle = "Bank Portal";
-  if (request.getAttribute("pageTitle") != null)
-    pageTitle = (String)request.getAttribute("pageTitle");
+  String pageTitle = "Bank Portal"; // default
+  if (request.getParameter("pageTitle") != null)
+      pageTitle = request.getParameter("pageTitle");
 %>
 <!DOCTYPE html>
 <html lang="en">
