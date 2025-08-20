@@ -51,6 +51,10 @@ public class AccountService {
 	public long findAccountIdByAccountNumber(String accountNumber) throws SQLException {
 	    return accountDao.findIdByAccountNumber(accountNumber);
 	}
+	
+	 public String getAccountNumberById(long accountId) throws SQLException {
+	        return accountDao.getAccountNumberById(accountId);
+	    }
 
 	
 	

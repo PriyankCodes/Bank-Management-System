@@ -11,6 +11,14 @@ public class Account {
     private String status;
     private BigDecimal balance;
     private Timestamp openedAt;
+    private String customerName; // Added for display
+
+    public String getCustomerName() {
+        return customerName;
+    }
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }

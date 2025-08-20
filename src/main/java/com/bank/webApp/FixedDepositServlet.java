@@ -2,7 +2,6 @@ package com.bank.webApp;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -18,7 +17,7 @@ import com.bank.service.AccountService;
 import com.bank.service.CustomerService;
 import com.bank.service.FixedDepositService;
 
-@WebServlet("/customer/fixed_deposits")
+@WebServlet("/customer/fixed_deposit")
 public class FixedDepositServlet extends HttpServlet {
 
     private final FixedDepositService fdService = new FixedDepositService();
@@ -36,7 +35,7 @@ public class FixedDepositServlet extends HttpServlet {
             Customer customer = customerService.findByUserId(userId);
             if (customer == null) {
                 req.setAttribute("error", "Customer profile not found.");
-                req.getRequestDispatcher("/customer/fixed_deposits.jsp").forward(req, resp);
+                req.getRequestDispatcher("/customer/fixed_deposit.jsp").forward(req, resp);
                 return;
             }
 
@@ -49,7 +48,7 @@ public class FixedDepositServlet extends HttpServlet {
             e.printStackTrace(); // Log full stack trace
             req.setAttribute("error", "Unable to load fixed deposits: " + e.getMessage());
         }
-        req.getRequestDispatcher("/customer/fixed_deposits.jsp").forward(req, resp);
+        req.getRequestDispatcher("/customer/fixed_deposit.jsp").forward(req, resp);
     }
 
     @Override
@@ -77,7 +76,7 @@ public class FixedDepositServlet extends HttpServlet {
 
             fdService.createFixedDeposit(customer.getId(), accountId, principal, tenureMonths);
             req.getSession().setAttribute("flash_success", "Fixed deposit application submitted successfully.");
-            resp.sendRedirect(req.getContextPath() + "/customer/fixed_deposits");
+            resp.sendRedirect(req.getContextPath() + "/customer/fixed_deposit");
         } catch (NumberFormatException e) {
             e.printStackTrace();
             req.setAttribute("error", "Invalid number format: " + e.getMessage());

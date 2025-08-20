@@ -28,7 +28,7 @@
               <a class="nav-link" href="${pageContext.request.contextPath}/customer/transactions">Transactions</a>
             </li>
              <li class="nav-item">
-              <a class="nav-link" href="${pageContext.request.contextPath}/customer/fixed_deposits">FD</a>
+              <a class="nav-link" href="${pageContext.request.contextPath}/customer/fixed_deposit">FD</a>
             </li>
           </c:when>
           

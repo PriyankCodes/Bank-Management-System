@@ -157,6 +157,19 @@ public class AccountDao {
         return null; // account not found
     }
 
+    public String getAccountNumberById(long accountId) throws SQLException {
+        String sql = "SELECT account_number FROM accounts WHERE id = ?";
+        try (Connection con = Db.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setLong(1, accountId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("account_number");
+                }
+            }
+        }
+        return null; // not found
+    }
 
 
 }

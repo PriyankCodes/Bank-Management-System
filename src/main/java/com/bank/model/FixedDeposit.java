@@ -85,8 +85,33 @@ public class FixedDeposit {
 	public BigDecimal getInterestRate() {
 		return interestRate;
 	}
+	
+	// In FixedDeposit.java
+
+	private String fdNumber;
+
+	public String getFdNumber() {
+	    return fdNumber;
+	}
+
+	public void setFdNumber(String fdNumber) {
+	    this.fdNumber = fdNumber;
+	}
+
 
 	public void setInterestRate(BigDecimal interestRate) {
 		this.interestRate = interestRate;
 	}
+	// In FixedDeposit.java model class
+
+	private String customerName;
+
+	public String getCustomerName() {
+	    return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+	    this.customerName = customerName;
+	}
+
 }

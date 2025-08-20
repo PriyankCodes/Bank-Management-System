@@ -15,7 +15,7 @@
     <jsp:include page="/components/alerts.jsp" />
 
     <h4>Apply for New Fixed Deposit</h4>
-    <form method="post" action="${pageContext.request.contextPath}/customer/fixed_deposits" novalidate>
+    <form method="post" action="${pageContext.request.contextPath}/customer/fixed_deposit" novalidate>
         <div class="mb-3">
             <label for="principal" class="form-label">Principal Amount (₹)</label>
             <input type="number" min="1000" step="0.01" id="principal" name="principal" class="form-control" required />

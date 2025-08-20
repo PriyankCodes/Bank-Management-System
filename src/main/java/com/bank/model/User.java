@@ -3,87 +3,88 @@ package com.bank.model;
 import java.sql.Timestamp;
 
 public class User {
-	private long id;
-	private String email;
-	private String phone;
-	public String getFirstName() {
-		return firstName;
-	}
+    private long id;
+    private String email;
+    private String phone;
+    private String password;
+    private String role;
+    private String status;
+    private Timestamp createdAt;
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    private String firstName;  // Added
+    private String lastName;   // Added
 
-	public String getLastName() {
-		return lastName;
-	}
+    // Getters and Setters
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public long getId() {
+        return id;
+    }
 
-	private String firstName;
-	private String 	lastName;
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	private String password;
-	private String role;
-	private String status;
-	private Timestamp createdAt;
+    public String getEmail() {
+        return email;
+    }
 
-	// Getters and setters
-	public long getId() {
-		return id;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public String getRole() {
+        return role;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setRole(String role) {
+        this.role = role;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getStatus() {
+        return status;
+    }
 
-	public String getRole() {
-		return role;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	public void setRole(String role) {
-		this.role = role;
-	}
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public Timestamp getCreatedAt() {
-		return createdAt;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public void setCreatedAt(Timestamp createdAt) {
-		this.createdAt = createdAt;
-	}
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 }

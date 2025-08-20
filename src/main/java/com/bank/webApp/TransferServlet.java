@@ -47,6 +47,22 @@ public class TransferServlet extends HttpServlet {
             long beneficiaryId = Long.parseLong(req.getParameter("beneficiaryId"));
             BigDecimal amount = new BigDecimal(req.getParameter("amount"));
 
+            // Fetch account numbers from database
+            String fromAccNumber = accountService.getAccountNumberById(fromAccountId);
+            String beneficiaryAccNumber = null;
+            if (beneficiaryId > 0) {
+                beneficiaryAccNumber = accountService.getAccountNumberById(beneficiaryId);
+            }
+            System.out.println(fromAccNumber);
+            System.out.println(beneficiaryAccNumber);
+
+            // Check if account numbers are the same
+            if (fromAccNumber != null && fromAccNumber.equals(beneficiaryAccNumber)) {
+                req.setAttribute("error", "Source and destination account numbers cannot be the same.");
+                doGet(req, resp);
+                return;
+            }
+
             String ref = transferService.transfer(userId, fromAccountId, beneficiaryId, amount);
             if (ref != null) {
                 req.getSession().setAttribute("flash_success", "Transfer successful. Reference: " + ref);
@@ -60,4 +76,5 @@ public class TransferServlet extends HttpServlet {
             doGet(req, resp);
         }
     }
+
 }
