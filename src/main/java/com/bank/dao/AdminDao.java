@@ -28,18 +28,7 @@ public class AdminDao {
 		return 0;
 	}
 
-	public int countActiveCustomers() throws SQLException {
-		// Since customers table has no 'status', count all customers
-		String sql = "SELECT COUNT(*) FROM customers";
-		try (Connection con = Db.getConnection();
-				Statement st = con.createStatement();
-				ResultSet rs = st.executeQuery(sql)) {
-			if (rs.next())
-				return rs.getInt(1);
-		}
-		return 0;
-	}
-
+	
 	public int countSoftDeletedCustomers() throws SQLException {
 		// You may implement soft delete with an 'is_deleted' boolean column, otherwise
 		// return 0
@@ -344,5 +333,58 @@ public class AdminDao {
 			return ps.executeUpdate() == 1;
 		}
 	}
+	public int countActiveCustomers() throws SQLException {
+	    String sql = "SELECT COUNT(*) " +
+	                 "FROM customers c " +
+	                 "JOIN users u ON c.user_id = u.id " +
+	                 "WHERE u.status = 'ACTIVE'";
+	    try (Connection con = Db.getConnection();
+	         PreparedStatement ps = con.prepareStatement(sql);
+	         ResultSet rs = ps.executeQuery()) {
+	        if (rs.next()) return rs.getInt(1);
+	    }
+	    return 0;
+	}
+
+
+    public int countOpenSupportTickets() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM support_tickets WHERE status IN ('OPEN', 'IN_PROGRESS')";
+        try (Connection con = Db.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) return rs.getInt(1);
+        }
+        return 0;
+    }
+
+    public int countActiveFixedDeposits() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM fixed_deposits WHERE status = 'ACTIVE'";
+        try (Connection con = Db.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) return rs.getInt(1);
+        }
+        return 0;
+    }
+
+    public int countSavingsAccounts() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM accounts WHERE type = 'SAVINGS' AND status = 'ACTIVE'";
+        try (Connection con = Db.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) return rs.getInt(1);
+        }
+        return 0;
+    }
+
+    public int countCurrentAccounts() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM accounts WHERE type = 'CURRENT' AND status = 'ACTIVE'";
+        try (Connection con = Db.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) return rs.getInt(1);
+        }
+        return 0;
+    }
 
 }

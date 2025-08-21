@@ -2,7 +2,9 @@ package com.bank.service;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.bank.dao.AdminDao;
 import com.bank.dao.FixedDepositDao;
@@ -14,6 +16,8 @@ import com.bank.model.FixedDepositRate;
 public class AdminService {
 
     private final AdminDao adminDao = new AdminDao();
+    FixedDepositService fdService = new FixedDepositService();
+
 
     public int countPendingAccounts() throws SQLException {
         return adminDao.countPendingAccounts();
@@ -82,11 +86,33 @@ public class AdminService {
     }
 
     public boolean updateFixedDepositStatus(long fdId, String status) throws SQLException {
-        return fdDao.updateFixedDepositStatus(fdId, status);
+        if ("CLOSED".equalsIgnoreCase(status)) {
+            try {
+                fdService.closeFixedDeposit(fdId);
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        } else {
+            return fdDao.updateFixedDepositStatus(fdId, status);
+        }
     }
+
 
     public boolean updateAllFdInterestRate(BigDecimal newRate) throws SQLException {
         return fdDao.updateAllFixedDepositsRate(newRate);
+    }
+    
+
+    public Map<String, Integer> getDashboardMetrics() throws SQLException {
+        Map<String, Integer> metrics = new HashMap<>();
+        metrics.put("activeCustomers", adminDao.countActiveCustomers());
+        metrics.put("openSupportTickets", adminDao.countOpenSupportTickets());
+        metrics.put("activeFixedDeposits", adminDao.countActiveFixedDeposits());
+        metrics.put("savingsAccounts", adminDao.countSavingsAccounts());
+        metrics.put("currentAccounts", adminDao.countCurrentAccounts());
+        return metrics;
     }
 
 }

@@ -107,7 +107,7 @@ public class CustomerDashboardServlet extends HttpServlet {
                 if (success) {
                     session.setAttribute("flash_success", "Deposit successful!");
                 } else {
-                    session.setAttribute("flash_error", "Deposit failed.");
+                    session.setAttribute("flash_error", "Deposit failed or Account is not Active.");
                 }
             } else if ("withdraw".equals(action)) {
                 BigDecimal balance = accountService.getBalanceByAccountNumber(accountNumber);

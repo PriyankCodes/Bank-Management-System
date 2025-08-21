@@ -58,7 +58,6 @@
                 <input type="hidden" name="accountId" value="${account.id}"/>
                 <select name="action" class="form-select form-select-sm w-auto" required>
                   <option value="">Change Status</option>
-                  <option value="PENDING">Pending</option>
                   <option value="ACTIVE">Active</option>
                   <option value="SUSPENDED">Suspended</option>
                   <option value="CLOSED">Closed</option>

@@ -4,6 +4,10 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
 <style>
+.navbar {
+  margin-bottom: 1.5rem;
+}
+
   /* Gradient navbar background */
   .navbar-custom {
     background: linear-gradient(90deg, #000000, #1a1a1a, #333333);
@@ -81,6 +85,8 @@
             <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/customer/beneficiaries"><i class="bi bi-people"></i> Beneficiaries</a></li>
             <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/customer/transactions"><i class="bi bi-card-list"></i> Transactions</a></li>
             <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/customer/fixed_deposit"><i class="bi bi-piggy-bank"></i> FD</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/customer/support-ticket"><i class="bi bi-life-preserver"></i> Support</a></li>
+            
           </c:when>
 
           <c:otherwise>

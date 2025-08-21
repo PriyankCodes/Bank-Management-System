@@ -23,7 +23,7 @@ public class AdminCustomersServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession(false);
 		if (session == null || !"ADMIN".equals(session.getAttribute("role"))) {
-			resp.sendRedirect(req.getContextPath() + "/auth");
+			resp.sendRedirect(req.getContextPath() + "/AuthServlet");
 			return;
 		}
 		try {
@@ -48,7 +48,7 @@ public class AdminCustomersServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession(false);
 		if (session == null || !"ADMIN".equals(session.getAttribute("role"))) {
-			resp.sendRedirect(req.getContextPath() + "/auth");
+			resp.sendRedirect(req.getContextPath() + "/AuthServlet");
 			return;
 		}
 

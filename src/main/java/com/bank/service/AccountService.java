@@ -62,6 +62,11 @@ public class AccountService {
 		long accountId = accountDao.findIdByAccountNumber(accountNumber);
 		// You can add ownership validation if required here
 
+		String status = accountDao.getAccountStatus(accountId);
+		if (status == null || status.equalsIgnoreCase("PENDING") || status.equalsIgnoreCase("SUSPENDED")
+				|| status.equalsIgnoreCase("CLOSED")) {
+			return false; // Do not allow operation on these statuses
+		}
 		accountDao.credit(accountId, amount);
 
 		String ref = "DEP" + System.currentTimeMillis();
@@ -81,7 +86,11 @@ public class AccountService {
 		if (balance.subtract(amount).compareTo(minBalance) < 0) {
 			return false; // minimum balance rule
 		}
-
+		String status = accountDao.getAccountStatus(accountId);
+		if (status == null || status.equalsIgnoreCase("PENDING") || status.equalsIgnoreCase("SUSPENDED")
+				|| status.equalsIgnoreCase("CLOSED")) {
+			return false; // Do not allow operation on these statuses
+		}
 		accountDao.debit(accountId, amount);
 
 		String ref = "WDR" + System.currentTimeMillis();
@@ -94,5 +103,15 @@ public class AccountService {
 		long accountId = accountDao.findIdByAccountNumber(accountNumber);
 		return accountDao.getBalance(accountId);
 	}
+	
+	public boolean hasNonActiveAccountOfType(long customerId, String type) {
+	    try {
+	        return accountDao.hasNonActiveAccountOfType(customerId, type);
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false; // safe fallback, assumes no non-active account
+	    }
+	}
+
 
 }

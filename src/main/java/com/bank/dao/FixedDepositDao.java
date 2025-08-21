@@ -55,6 +55,31 @@ public class FixedDepositDao {
         }
         return fds;
     }
+    
+    public FixedDeposit findById(long fdId) throws SQLException {
+        String sql = "SELECT * FROM fixed_deposits WHERE id = ?";
+        try (Connection con = Db.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setLong(1, fdId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    FixedDeposit fd = new FixedDeposit();
+                    fd.setId(rs.getLong("id"));
+                    fd.setCustomerId(rs.getLong("customer_id"));
+                    fd.setAccountId(rs.getLong("linked_account_id"));
+                    fd.setPrincipal(rs.getBigDecimal("principal"));
+                    fd.setTenureMonths(rs.getInt("tenure_months"));
+                    fd.setStatus(rs.getString("status"));
+                    fd.setInterestRate(rs.getBigDecimal("rate_percent"));
+                    fd.setStartDate(rs.getString("start_date"));
+                    // add other FD fields as necessary
+                    return fd;
+                }
+            }
+        }
+        return null;
+    }
+
 
     public long insert(FixedDeposit fd) throws SQLException {
         String sql = "INSERT INTO fixed_deposits\r\n"
@@ -159,5 +184,6 @@ public class FixedDepositDao {
             return true;
         }
     }
+
 
 }

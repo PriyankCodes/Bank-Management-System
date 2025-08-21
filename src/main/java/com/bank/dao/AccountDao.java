@@ -143,6 +143,31 @@ public class AccountDao {
         }
     }
     
+    public String getAccountStatus(long accountId) throws SQLException {
+        String sql = "SELECT status FROM accounts WHERE id = ?";
+        try (Connection con = Db.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setLong(1, accountId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("status");
+                }
+            }
+        }
+        return null; // Account not found
+    }
+    public boolean hasNonActiveAccountOfType(long customerId, String accountType) throws SQLException {
+    	String sql = "SELECT 1 FROM accounts WHERE customer_id = ? AND type = ? AND status IN ('PENDING', 'SUSPENDED') LIMIT 1";
+        try (Connection con = Db.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setLong(1, customerId);
+            ps.setString(2, accountType.toUpperCase());
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
+
     public BigDecimal getBalance(long accountId) throws SQLException {
         String sql = "SELECT balance FROM accounts WHERE id = ?";
         try (Connection con = Db.getConnection();

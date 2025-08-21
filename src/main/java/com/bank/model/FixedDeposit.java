@@ -8,7 +8,12 @@ public class FixedDeposit {
 	private long customerId;
 	private BigDecimal principal;
 	private int tenureMonths;
-	private String status; // e.g., PENDING, ACTIVE, CLOSED
+	private String status;
+	private String startDate;
+	private Timestamp maturityDate;
+	private BigDecimal interestRate;
+	private long accountId;
+
 	public String getStartDate() {
 		return startDate;
 	}
@@ -20,17 +25,12 @@ public class FixedDeposit {
 	private String fd_number;
 
 	public String getFd_number() {
-	return fd_number;
-}
+		return fd_number;
+	}
 
-public void setFd_number(String fd_number) {
-	this.fd_number = fd_number;
-}
-	private String startDate;
-	private Timestamp maturityDate;
-	private BigDecimal interestRate;
-	// Add inside FixedDeposit class
-	private long accountId;
+	public void setFd_number(String fd_number) {
+		this.fd_number = fd_number;
+	}
 
 	public long getAccountId() {
 		return accountId;
@@ -81,8 +81,6 @@ public void setFd_number(String fd_number) {
 		this.status = status;
 	}
 
-
-
 	public Timestamp getMaturityDate() {
 		return maturityDate;
 	}
@@ -94,33 +92,31 @@ public void setFd_number(String fd_number) {
 	public BigDecimal getInterestRate() {
 		return interestRate;
 	}
-	
+
 	// In FixedDeposit.java
 
 	private String fdNumber;
 
 	public String getFdNumber() {
-	    return fdNumber;
+		return fdNumber;
 	}
 
 	public void setFdNumber(String fdNumber) {
-	    this.fdNumber = fdNumber;
+		this.fdNumber = fdNumber;
 	}
-
 
 	public void setInterestRate(BigDecimal interestRate) {
 		this.interestRate = interestRate;
 	}
-	// In FixedDeposit.java model class
 
 	private String customerName;
 
 	public String getCustomerName() {
-	    return customerName;
+		return customerName;
 	}
 
 	public void setCustomerName(String customerName) {
-	    this.customerName = customerName;
+		this.customerName = customerName;
 	}
 
 }

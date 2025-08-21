@@ -75,19 +75,37 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <c:choose>
           <c:when test="${not empty sessionScope.userId}">
-          <li class="nav-item">
-          <a class="nav-link" href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a>
-        </li>
         <li class="nav-item">
-          <a class="nav-link" href="${pageContext.request.contextPath}/admin/accounts">Manage Accounts</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="${pageContext.request.contextPath}/admin/customers">Manage Customers</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="${pageContext.request.contextPath}/admin/fixed_deposits">FD Rates</a>
-        </li>
-      
+  <a class="nav-link" href="${pageContext.request.contextPath}/admin/dashboard">
+    <i class="bi bi-speedometer2 me-1"></i> Dashboard
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="${pageContext.request.contextPath}/admin/accounts">
+    <i class="bi bi-bank me-1"></i> Manage Accounts
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="${pageContext.request.contextPath}/admin/customers">
+    <i class="bi bi-people me-1"></i> Manage Customers
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="${pageContext.request.contextPath}/admin/fixed_deposits">
+    <i class="bi bi-piggy-bank me-1"></i> FD
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="${pageContext.request.contextPath}/admin/support-tickets">
+    <i class="bi bi-life-preserver me-1"></i> Support Tickets
+  </a>
+</li>
+
+      <li class="nav-item">
+  <a class="nav-link" href="${pageContext.request.contextPath}/admin/reports">
+    <i class="bi bi-life-preserver me-1"></i> Analysis
+  </a>
+</li>
           </c:when>
 
           <c:otherwise>
