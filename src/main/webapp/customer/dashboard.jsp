@@ -88,7 +88,53 @@
             <!-- Rest of dashboard code as before -->
         </c:otherwise>
     </c:choose>
+    
+    
+<div class="container my-5">
+    <h2 class="mb-4">Monthly Income vs Spending</h2>
+    
+<div style="max-width: 450px; margin: 0 auto;">
+    <canvas id="incomeExpenseChart" width="400" height="400"></canvas>
 </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Fetch monthly data from backend endpoint and render chart
+    fetch('${pageContext.request.contextPath}/customer/customer-analysis/data')
+      .then(response => response.json())
+      .then(data => {
+        const ctx = document.getElementById('incomeExpenseChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Income', 'Spending'],
+                datasets: [{
+                    label: 'Monthly totals',
+                    data: [data.monthlyIncome, data.monthlySpending],
+                    backgroundColor: ['#4caf50', '#f44336'], // green & red
+                    hoverOffset: 30
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    title: {
+                        display: true,
+                        text: 'Income vs Spending (Monthly)'
+                    }
+                }
+            }
+        });
+      })
+      .catch(err => {
+        console.error('Failed to load analysis data', err);
+      });
+</script>
+</div>
+
+
 <jsp:include page="/components/footer.jsp"/>
 <style>
     .account-card { background: linear-gradient(to bottom right, #fff, #f8f9fa); /* ... */ }

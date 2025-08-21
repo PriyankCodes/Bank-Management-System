@@ -12,7 +12,9 @@
 
 <div class="container section-lg fade-in">
 
-    <h3 class="mb-4 text-gradient fw-bold"><i class="bi bi-life-preserver me-2"></i>Manage Support Tickets</h3>
+    <h3 class="mb-4 text-gradient fw-bold">
+        <i class="bi bi-headset me-2"></i> Manage Support Tickets
+    </h3>
 
     <!-- Flash messages -->
     <c:if test="${not empty sessionScope.flash_success}">
@@ -33,22 +35,6 @@
     <!-- Filters -->
     <form method="get" action="${pageContext.request.contextPath}/admin/support-tickets" class="mb-4 row g-3 align-items-end">
         <div class="col-md-3">
-           <c:if test="${ticket.status ne 'CLOSED'}">
-   <!-- Show update buttons only if not CLOSED -->
-       <input type="hidden" name="action" value="updateStatus"/>
-       <input type="hidden" name="ticketId" value="${ticket.id}"/>
-       <select name="status">
-           <option value="OPEN">OPEN</option>
-           <option value="IN_PROGRESS">IN_PROGRESS</option>
-           <option value="CLOSED">CLOSED</option>
-       </select>
-       <button type="submit">Update</button>
-
-</c:if>
-   </form>
-        </div>
-
-        <div class="col-md-3">
             <label for="filterPriority" class="form-label">Filter by Priority:</label>
             <select id="filterPriority" name="priority" class="form-select">
                 <option value="">All</option>
@@ -59,7 +45,9 @@
         </div>
 
         <div class="col-auto">
-            <button type="submit" class="btn btn-outline-primary"><i class="bi bi-funnel-fill me-1"></i> Filter</button>
+            <button type="submit" class="btn btn-outline-primary">
+                <i class="bi bi-funnel-fill me-1"></i> Filter
+            </button>
         </div>
     </form>
 
@@ -90,7 +78,8 @@
                             <form method="post" action="${pageContext.request.contextPath}/admin/support-tickets">
                                 <input type="hidden" name="ticketId" value="${ticket.id}"/>
                                 <input type="hidden" name="action" value="updateStatus"/>
-                                <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                                <select name="status" class="form-select form-select-sm" onchange="this.form.submit()" 
+                                        ${ticket.status == 'CLOSED' ? 'disabled' : ''}>
                                     <option value="OPEN" ${ticket.status == 'OPEN' ? 'selected' : ''}>OPEN</option>
                                     <option value="IN_PROGRESS" ${ticket.status == 'IN_PROGRESS' ? 'selected' : ''}>IN_PROGRESS</option>
                                     <option value="RESOLVED" ${ticket.status == 'RESOLVED' ? 'selected' : ''}>RESOLVED</option>
@@ -118,7 +107,7 @@
 
                 <c:if test="${empty tickets}">
                     <tr>
-                        <td colspan="8" class="text-center text-muted">No support tickets found.</td>
+                        <td colspan="7" class="text-center text-muted">No support tickets found.</td>
                     </tr>
                 </c:if>
             </tbody>
@@ -134,12 +123,12 @@
 <script>
     $(document).ready(function () {
         $('#ticketsTable').DataTable({
-            "pageLength": 10,
-            "lengthMenu": [5, 10, 25, 50, 100],
-            "order": [[0, "desc"]], // sort by ID desc
-            "language": {
-                "search": "Search tickets:",
-                "lengthMenu": "Show _MENU_ tickets"
+            pageLength: 10,
+            lengthMenu: [5, 10, 25, 50, 100],
+            order: [[0, "desc"]],
+            language: {
+                search: "Search tickets:",
+                lengthMenu: "Show _MENU_ tickets"
             }
         });
     });
