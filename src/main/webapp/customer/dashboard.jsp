@@ -7,8 +7,9 @@
 <jsp:include page="/components/navbar.jsp"/>
 
 <div class="container section-lg fade-in">
+    <jsp:include page="/components/alerts.jsp"/>
 
-    <!-- Flash messages -->
+    <!-- Flash Messages -->
     <c:if test="${not empty sessionScope.flash_success}">
         <div class="alert alert-success">${sessionScope.flash_success}</div>
         <c:remove var="flash_success" scope="session"/>
@@ -25,8 +26,31 @@
 
     <c:choose>
         <c:when test="${empty accounts}">
-            <!-- Account opening form (unchanged) -->
+            <div class="alert alert-info">
+                <p>You currently have no accounts. Please open a new savings or current account.</p>
+            </div>
+
+            <!-- Open Account Form -->
+            <div class="card shadow-sm p-3 mb-4">
+                <form method="post" action="${pageContext.request.contextPath}/customer/account-new" novalidate>
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Account Type</label>
+                        <select name="type" id="type" class="form-select" required>
+                            <option value="">Select account type...</option>
+                            <option value="SAVINGS">Savings</option>
+                            <option value="CURRENT">Current</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="principal" class="form-label">Initial Deposit (₹ minimum 1000)</label>
+                        <input type="number" min="1000" step="0.01" id="principal" name="principal" class="form-control" required/>
+                        <div class="form-text">Minimum ₹ 1000 required to open an account.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Open Account</button>
+                </form>
+            </div>
         </c:when>
+
         <c:otherwise>
             <h5 class="mb-3">Your Accounts</h5>
             <div class="row g-4">
@@ -45,7 +69,7 @@
                                 <h5 class="text-dark fw-bold">₹ <c:out value="${a.balance}"/></h5>
                                 <p class="text-muted small mb-3">Opened At: <c:out value="${a.openedAt}"/></p>
 
-                                <!-- Deposit/Withdraw Buttons (postback with account info) -->
+                                <!-- Deposit / Withdraw buttons -->
                                 <form method="post" action="${pageContext.request.contextPath}/customer/dashboard" style="display:inline;">
                                     <input type="hidden" name="showForm" value="${a.accountNumber}"/>
                                     <input type="hidden" name="formType" value="deposit"/>
@@ -57,7 +81,7 @@
                                     <button type="submit" class="btn btn-danger btn-sm mb-1 ms-2">Withdraw</button>
                                 </form>
 
-                                <!-- Only show deposit/withdraw form for the currently selected account -->
+                                <!-- Conditional deposit/withdraw form -->
                                 <c:if test="${param.showForm == a.accountNumber}">
                                     <form method="post" action="${pageContext.request.contextPath}/customer/dashboard" class="mt-3">
                                         <input type="hidden" name="accountNumber" value="${a.accountNumber}"/>
@@ -85,10 +109,8 @@
                     </div>
                 </c:forEach>
             </div>
-            <!-- Rest of dashboard code as before -->
-        </c:otherwise>
-    </c:choose>
-    
+            
+               
     
 <div class="container my-5">
     <h2 class="mb-4">Monthly Income vs Spending</h2>
@@ -133,11 +155,16 @@
       });
 </script>
 </div>
+        </c:otherwise>
+    </c:choose>
+</div>
+
 
 
 <jsp:include page="/components/footer.jsp"/>
+
 <style>
-    .account-card { background: linear-gradient(to bottom right, #fff, #f8f9fa); /* ... */ }
-    .account-card:hover { /* ... */ }
+    .account-card { background: linear-gradient(to bottom right, #fff, #f8f9fa); transition: transform .2s ease; }
+    .account-card:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
     .account-card .card-title { font-size: 0.85rem; font-weight: 600; }
 </style>
