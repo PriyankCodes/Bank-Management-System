@@ -27,6 +27,7 @@ public class TransferDao {
         String sql = "SELECT t.id, t.amount, t.status, t.reference_no, t.created_at, " +
                 "a.account_number AS fromAccountNumber, " +
                 "b.name AS beneficiaryName " +
+                //"b.account_number AS accountNumber"+
                 "FROM transfers t " +
                 "JOIN accounts a ON t.from_account_id = a.id " +
                 "JOIN beneficiaries b ON t.beneficiary_id = b.id " +
@@ -46,6 +47,8 @@ public class TransferDao {
                     row.put("createdAt", rs.getTimestamp("created_at"));
                     row.put("fromAccountNumber", rs.getString("fromAccountNumber"));
                     row.put("beneficiaryName", rs.getString("beneficiaryName"));
+                   // row.put("accountNumber", rs.getString("accountNumber"));
+
                     results.add(row);
                 }
             }

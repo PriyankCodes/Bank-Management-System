@@ -37,6 +37,21 @@ public class AccountDao {
         }
         return accounts;
     }
+    
+    public long findIdByUserId(long userId) throws SQLException {
+        String sql = "SELECT id FROM customers WHERE user_id = ?";
+        try (Connection con = Db.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setLong(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getLong("id");
+                }
+            }
+        }
+        throw new SQLException("Customer not found for userId: " + userId);
+    }
+
 
     // Count accounts of a certain type belonging to a customer
     public int countByCustomerAndType(long customerId, String type) throws SQLException {

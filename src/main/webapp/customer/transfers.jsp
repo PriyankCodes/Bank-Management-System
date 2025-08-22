@@ -73,15 +73,22 @@
             </c:forEach>
           </select>
         </div>
+<div class="col-md-4">
+  <label class="form-label">Beneficiary</label>
+  <select id="beneficiarySelect" name="beneficiaryId" class="form-select mb-2">
+    <option value="">-- Select from Beneficiaries --</option>
+    <c:forEach var="b" items="${beneficiaries}">
+      <option value="${b.id}">${b.name} - ${b.accountNumber}</option>
+    </c:forEach>
+  </select>
 
-        <div class="col-md-4">
-          <label class="form-label">Beneficiary</label>
-          <select name="beneficiaryId" class="form-select" required>
-            <c:forEach var="b" items="${beneficiaries}">
-              <option value="${b.id}">${b.name} - ${b.accountNumber}</option>
-            </c:forEach>
-          </select>
-        </div>
+  <div class="text-center fw-bold my-2">OR</div>
+
+  <input type="text" id="beneficiaryAccountInput" 
+         name="beneficiaryAccountNumber" 
+         class="form-control" 
+         placeholder="Enter account number directly"/>
+</div>
 
         <div class="col-md-4">
           <label class="form-label">Amount</label>
@@ -127,8 +134,9 @@
                       <c:when test="${t.status == 'SUCCESS'}">badge-success</c:when>
                       <c:when test="${t.status == 'PROCESSING'}">badge-warning</c:when>
                       <c:otherwise>badge-danger</c:otherwise>
-                    </c:choose>
-                  "><c:out value="${t.status}"/></span>
+                    </c:choose>">
+                    <c:out value="${t.status}"/>
+                  </span>
                 </td>
                 <td class="fw-light"><c:out value="${t.referenceNo}"/></td>
               </tr>
@@ -143,5 +151,24 @@
     </div>
   </div>
 </div>
+
+<script>
+  const beneficiarySelect = document.getElementById("beneficiarySelect");
+  const beneficiaryAccountInput = document.getElementById("beneficiaryAccountInput");
+
+  // When dropdown is changed, clear input
+  beneficiarySelect.addEventListener("change", () => {
+    if (beneficiarySelect.value) {
+      beneficiaryAccountInput.value = "";
+    }
+  });
+
+  // When input is typed, reset dropdown
+  beneficiaryAccountInput.addEventListener("input", () => {
+    if (beneficiaryAccountInput.value.trim() !== "") {
+      beneficiarySelect.value = "";
+    }
+  });
+</script>
 
 <jsp:include page="/components/footer.jsp"/>

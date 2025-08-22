@@ -39,6 +39,11 @@ public class AccountService {
 	public List<Account> getAccountsByCustomerId(long customerId) throws SQLException {
 		return accountDao.findByCustomerId(customerId);
 	}
+	
+	public long findCustomerIdByUserId(long userId) throws SQLException {
+	    return accountDao.findIdByUserId(userId);
+	}
+
 
 	public boolean hasPendingAccount(long customerId) {
 		try {
