@@ -1,0 +1,110 @@
+-- Schema: bank_app_min
+CREATE DATABASE IF NOT EXISTS bank_app_new
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_general_ci;
+USE bank_app_new;
+
+-- 1) Security and Identity (roles inlined)
+CREATE TABLE users (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  phone VARCHAR(20) UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  role VARCHAR(20) NOT NULL DEFAULT 'CUSTOMER', -- 'ADMIN','CUSTOMER'
+  status ENUM('PENDING','ACTIVE','LOCKED','DISABLED') NOT NULL DEFAULT 'PENDING',
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+CREATE TABLE customers (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  user_id BIGINT NOT NULL UNIQUE,
+  first_name VARCHAR(100) NOT NULL,
+  last_name VARCHAR(100) NOT NULL,
+  dob DATE NOT NULL,
+  city VARCHAR(100) NOT NULL,
+  state VARCHAR(100) NOT NULL,
+  CONSTRAINT fk_customers_user FOREIGN KEY (user_id) REFERENCES users(id)
+) ENGINE=InnoDB;
+
+-- 2) Core Banking (account type inlined)
+CREATE TABLE accounts (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  account_number VARCHAR(32) NOT NULL UNIQUE,
+  customer_id BIGINT NOT NULL,
+  type VARCHAR(20) NOT NULL, -- 'SAVINGS','CURRENT'
+  status ENUM('PENDING','ACTIVE','SUSPENDED','CLOSED') NOT NULL DEFAULT 'PENDING',
+  balance DECIMAL(18,2) NOT NULL DEFAULT 0.00,
+  opened_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_accounts_customer FOREIGN KEY (customer_id) REFERENCES customers(id),
+  INDEX idx_accounts_customer (customer_id)
+) ENGINE=InnoDB;
+
+-- 3) Transactions
+CREATE TABLE transactions (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  account_id BIGINT NOT NULL,
+  txn_type ENUM('CREDIT','DEBIT') NOT NULL,
+  amount DECIMAL(18,2) NOT NULL,
+  reference_no VARCHAR(64),
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_txn_account FOREIGN KEY (account_id) REFERENCES accounts(id),
+  INDEX idx_txn_acc_date (account_id, created_at)
+) ENGINE=InnoDB;
+
+-- 4) Beneficiaries and Transfers
+CREATE TABLE beneficiaries (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  customer_id BIGINT NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  account_number VARCHAR(34) NOT NULL,
+  bank_name VARCHAR(100) NOT NULL,
+  added_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_benef_customer FOREIGN KEY (customer_id) REFERENCES customers(id),
+  INDEX idx_benef_customer_status (customer_id)  -- you may want to drop/recreate this
+) ENGINE=InnoDB;
+
+-- 5)
+CREATE TABLE transfers (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  from_account_id BIGINT NOT NULL,
+  beneficiary_id BIGINT NULL,
+  beneficiary_account_number VARCHAR(34) NULL,
+  amount DECIMAL(18,2) NOT NULL,
+  status ENUM('PENDING','PROCESSING','SUCCESS','FAILED','REVERSED') NOT NULL DEFAULT 'PENDING',
+  reference_no VARCHAR(64),
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_transfer_fromacc FOREIGN KEY (from_account_id) REFERENCES accounts(id),
+  CONSTRAINT fk_transfer_benef FOREIGN KEY (beneficiary_id) REFERENCES beneficiaries(id),
+  INDEX idx_transfer_from_date (from_account_id, created_at)
+) ENGINE=InnoDB;
+
+--
+-- 6) Fixed Deposits (rates stored inline)
+CREATE TABLE fixed_deposits (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  customer_id BIGINT NOT NULL,
+  linked_account_id BIGINT NOT NULL,
+  fd_number VARCHAR(30) NOT NULL UNIQUE,
+  principal DECIMAL(18,2) NOT NULL,
+  rate_percent DECIMAL(5,2) NOT NULL,
+  tenure_months INT NOT NULL,
+  start_date DATE NOT NULL,
+  maturity_date DATE NOT NULL,
+  payout_frequency ENUM('MONTHLY','QUARTERLY','HALF_YEARLY','YEARLY','ON_MATURITY') NOT NULL,
+  status ENUM('ACTIVE','CLOSED','PREMATURED') NOT NULL DEFAULT 'ACTIVE',
+  CONSTRAINT fk_fd_customer FOREIGN KEY (customer_id) REFERENCES customers(id),
+  CONSTRAINT fk_fd_linkedacc FOREIGN KEY (linked_account_id) REFERENCES accounts(id),
+  INDEX idx_fd_customer (customer_id)
+) ENGINE=InnoDB;
+
+-- 7) Support 
+CREATE TABLE support_tickets (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  customer_id BIGINT NOT NULL,
+  subject VARCHAR(150) NOT NULL,
+  description TEXT NOT NULL,
+  status ENUM('OPEN','IN_PROGRESS','RESOLVED','CLOSED') NOT NULL DEFAULT 'OPEN',
+  priority ENUM('LOW','MEDIUM','HIGH') NOT NULL DEFAULT 'MEDIUM',
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_ticket_customer FOREIGN KEY (customer_id) REFERENCES customers(id)
+) ENGINE=InnoDB;
