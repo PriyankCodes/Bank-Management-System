@@ -1,3 +1,4 @@
+
 package com.bank.webApp;
 
 import java.io.IOException;
@@ -75,7 +76,7 @@ public class TransferServlet extends HttpServlet {
 
 				// Check if account exists internally—throw exception or handle as needed
 				if (!beneficiaryService.isAccountExists(beneficiaryAccNumber)) {
-					throw new IllegalArgumentException("Beneficiary account number does not exist in the bank.");
+					throw new IllegalArgumentException("Account number does not exist in the bank.");
 				}
 				beneficiaryId = accountService.findAccountIdByAccountNumber(beneficiaryAccNumber);
 			}
@@ -92,7 +93,14 @@ public class TransferServlet extends HttpServlet {
 				return;
 			}
 
-			String ref = transferService.transfer(userId, fromAccountId, beneficiaryId, amount);
+			String ref = transferService.transfer(
+				    userId, 
+				    fromAccountId, 
+				    beneficiaryId > 0 ? beneficiaryId : null,
+				    beneficiaryAccNumber,   // always pass account number, even if beneficiary selected
+				    amount
+				);
+
 			if (ref != null) {
 				req.getSession().setAttribute("flash_success", "Transfer successful. Reference: " + ref);
 				resp.sendRedirect(req.getContextPath() + "/customer/transfers");
@@ -100,7 +108,13 @@ public class TransferServlet extends HttpServlet {
 				req.setAttribute("error", "Transfer failed: check balance, ownership, or input values.");
 				doGet(req, resp);
 			}
-		} catch (Exception e) {
+		}
+		catch (IllegalArgumentException iae) {
+		    // show friendly validation message
+		    req.setAttribute("error", iae.getMessage());
+		    doGet(req, resp);
+
+		}catch (Exception e) {
 			req.setAttribute("error", "Transfer failed due to server error.");
 			doGet(req, resp);
 		}

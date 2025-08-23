@@ -115,7 +115,7 @@
             <tr>
               <th>Date</th>
               <th>From Account</th>
-              <th>Beneficiary</th>
+              <th>To Account</th>
               <th class="text-end">Amount (₹)</th>
               <th>Status</th>
               <th>Reference No</th>
@@ -126,7 +126,8 @@
               <tr>
                 <td><c:out value="${t.createdAt}"/></td>
                 <td><c:out value="${t.fromAccountNumber}"/></td>
-                <td><c:out value="${t.beneficiaryName}"/></td>
+                <td><c:out value="${t.beneficiaryDisplay}"/></td>
+                
                 <td class="text-end fw-semibold">₹ <c:out value="${t.amount}"/></td>
                 <td>
                   <span class="badge 
@@ -172,3 +173,4 @@
 </script>
 
 <jsp:include page="/components/footer.jsp"/>
+
