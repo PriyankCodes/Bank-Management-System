@@ -35,7 +35,7 @@ public class TransferDao {
 	public List<Map<String, Object>> recentForUser(long userId) throws SQLException {
 	    String sql = "SELECT t.id, t.amount, t.status, t.reference_no, t.created_at, " +
 	            "a.account_number AS fromAccountNumber, " +
-	            "t.beneficiary_account_number AS beneficiaryDisplay " +
+	            "COALESCE(b.name, t.beneficiary_account_number) AS beneficiaryDisplay " +
 	            "FROM transfers t " +
 	            "JOIN accounts a ON t.from_account_id = a.id " +
 	            "LEFT JOIN beneficiaries b ON t.beneficiary_id = b.id " +

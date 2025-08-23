@@ -65,21 +65,43 @@ public class TransferServlet extends HttpServlet {
 			String beneficiaryIdStr = req.getParameter("beneficiaryId");
 			String beneficiaryAccNumber = null;
 			long beneficiaryId = 0;
+//			if (beneficiaryIdStr != null && !beneficiaryIdStr.isEmpty()) {
+//				beneficiaryId = Long.parseLong(beneficiaryIdStr) - 1;
+//				beneficiaryAccNumber = customerService.getBeneficiaryAccountNumberById(beneficiaryId);
+//			} else {
+//				beneficiaryAccNumber = req.getParameter("beneficiaryAccountNumber");
+//				if (!Util.isValidAccountNumber(beneficiaryAccNumber)) {
+//					throw new IllegalArgumentException("Invalid account number.");
+//				}
+//
+//				// Check if account exists internally—throw exception or handle as needed
+//				if (!beneficiaryService.isAccountExists(beneficiaryAccNumber)) {
+//					throw new IllegalArgumentException("Account number does not exist in the bank.");
+//				}
+//				beneficiaryId = accountService.findAccountIdByAccountNumber(beneficiaryAccNumber);
+//			}
 			if (beneficiaryIdStr != null && !beneficiaryIdStr.isEmpty()) {
-				beneficiaryId = Long.parseLong(beneficiaryIdStr) - 1;
-				beneficiaryAccNumber = customerService.getBeneficiaryAccountNumberById(beneficiaryId);
-			} else {
-				beneficiaryAccNumber = req.getParameter("beneficiaryAccountNumber");
-				if (!Util.isValidAccountNumber(beneficiaryAccNumber)) {
-					throw new IllegalArgumentException("Invalid account number.");
-				}
+			    // Beneficiary chosen from dropdown
+			    beneficiaryId = Long.parseLong(beneficiaryIdStr);
+			    beneficiaryAccNumber = customerService.getBeneficiaryAccountNumberById(beneficiaryId);
 
-				// Check if account exists internally—throw exception or handle as needed
-				if (!beneficiaryService.isAccountExists(beneficiaryAccNumber)) {
-					throw new IllegalArgumentException("Account number does not exist in the bank.");
-				}
-				beneficiaryId = accountService.findAccountIdByAccountNumber(beneficiaryAccNumber);
+			} else {
+			    // Direct account number entry
+			    beneficiaryAccNumber = req.getParameter("beneficiaryAccountNumber");
+
+			    if (!Util.isValidAccountNumber(beneficiaryAccNumber)) {
+			        throw new IllegalArgumentException("Invalid account number.");
+			    }
+
+			    // Check if account exists internally
+			    if (!beneficiaryService.isAccountExists(beneficiaryAccNumber)) {
+			        throw new IllegalArgumentException("Account number does not exist in the bank.");
+			    }
+
+			    // Do NOT set beneficiaryId here — keep it null
+			    beneficiaryId = 0; // or simply leave as null in service call
 			}
+
 			if (beneficiaryAccNumber == null || beneficiaryAccNumber.isEmpty()) {
 				req.setAttribute("error", "Please select or enter a beneficiary account.");
 				doGet(req, resp);
@@ -96,7 +118,7 @@ public class TransferServlet extends HttpServlet {
 			String ref = transferService.transfer(
 				    userId, 
 				    fromAccountId, 
-				    beneficiaryId > 0 ? beneficiaryId : null,
+				    beneficiaryId > 0 ? beneficiaryId : 0,
 				    beneficiaryAccNumber,   // always pass account number, even if beneficiary selected
 				    amount
 				);
