@@ -121,6 +121,7 @@
     </div>
   </c:if>
 </div>
+<jsp:include page="/admin/components/footer.jsp"/>
 
 <!-- Include jQuery, DataTables & Bootstrap 5 integration -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css"/>

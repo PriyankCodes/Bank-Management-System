@@ -71,6 +71,7 @@
     </table>
   </div>
 </div>
+<jsp:include page="/admin/components/footer.jsp"/>
 
 <!-- Include jQuery and DataTables JS & CSS -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"/>

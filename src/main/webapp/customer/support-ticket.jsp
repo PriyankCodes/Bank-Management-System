@@ -2,165 +2,222 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Support Ticket - BankApp</title>
+
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+      color: #000;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Simple Black Heading */
+    .page-title {
+      color: #000;
+      font-weight: 700;
+    }
+
+    /* Card */
+    .card {
+      border-radius: 12px;
+      border: 1px solid #dee2e6;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Form Inputs */
+    .form-control, .form-select {
+      border-radius: 8px;
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: #000;
+      box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.1);
+    }
+
+    /* Button */
+    .btn-primary {
+      background-color: #000;
+      border: none;
+      padding: 0.5rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+
+    .btn-primary:hover {
+      background-color: #111;
+    }
+
+    /* Table Header */
+    .table thead th {
+      background-color: #f1f1f1;
+      color: #000;
+      font-weight: 600;
+      border-bottom: 2px solid #dee2e6;
+    }
+
+    /* Badge Colors */
+    .badge {
+      border-radius: 6px;
+      padding: 0.5em 0.8em;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .status-open       { background: #fff3cd; color: #856404; }
+    .status-in-progress { background: #d1ecf1; color: #0c5460; }
+    .status-resolved    { background: #d4edda; color: #155724; }
+    .status-closed      { background: #e9ecef; color: #495057; }
+
+    .priority-low    { background: #e9ecef; color: #495057; }
+    .priority-medium { background: #d1ecf1; color: #0c5460; }
+    .priority-high   { background: #f8d7da; color: #721c24; }
+
+    /* Centered Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 2rem 0;
+      color: #6c757d;
+    }
+
+    /* Responsive */
+    @media (max-width: 576px) {
+      .btn {
+        width: 100%;
+      }
+      .table-responsive {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
 <jsp:include page="/components/header.jsp">
-    <jsp:param name="pageTitle" value="Submit Support Ticket"/>
+    <jsp:param name="pageTitle" value="Support Ticket"/>
 </jsp:include>
 <jsp:include page="/components/navbar.jsp"/>
 
-<div class="container section-lg fade-in py-5">
-
-    <!-- Flash messages -->
-    <c:if test="${not empty sessionScope.flash_success}">
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            ${sessionScope.flash_success}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-        <c:remove var="flash_success" scope="session"/>
-    </c:if>
-
-    <c:if test="${not empty sessionScope.flash_error}">
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            ${sessionScope.flash_error}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-        <c:remove var="flash_error" scope="session"/>
-    </c:if>
-
-    <h3 class="mb-4 text-gradient fw-bold">
-        <i class="bi bi-life-preserver me-2"></i> Submit a Support Ticket
-    </h3>
-
-    <!-- Submit Ticket Form -->
-    <div class="card shadow-sm rounded-4 p-4 mb-5">
-        <form method="post" action="${pageContext.request.contextPath}/customer/support-ticket" novalidate>
-            <div class="mb-3">
-                <label for="subject" class="form-label fw-semibold">Subject</label>
-                <select id="subject" name="subject" class="form-select stylish-select" required>
-                    <option value="">-- Select Subject --</option>
-                    <option value="Account Issue">Account Issue</option>
-                    <option value="Transaction Problem">Transaction Problem</option>
-                    <option value="Technical Support">Technical Support</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label for="description" class="form-label fw-semibold">Description</label>
-                <textarea id="description" name="description" rows="5" class="form-control stylish-input" required placeholder="Describe your issue"></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-gradient px-4 glow-btn">
-                <i class="bi bi-send me-1"></i> Submit Ticket
-            </button>
-        </form>
+<div class="container py-5">
+  <!-- Flash Messages -->
+  <c:if test="${not empty sessionScope.flash_success}">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      ${sessionScope.flash_success}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+    <c:remove var="flash_success" scope="session"/>
+  </c:if>
 
-    <!-- Your Tickets Table -->
-    <h4 class="mb-3 text-gradient fw-bold"><i class="bi bi-card-list me-2"></i> Your Support Tickets</h4>
+  <c:if test="${not empty sessionScope.flash_error}">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      ${sessionScope.flash_error}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <c:remove var="flash_error" scope="session"/>
+  </c:if>
 
-    <c:choose>
-        <c:when test="${empty tickets}">
-            <div class="alert alert-info">
-                You currently have no support tickets.
-            </div>
-        </c:when>
-        <c:otherwise>
-            <div class="table-responsive shadow-sm rounded-4">
-                <table class="table table-hover table-bordered align-middle mb-0">
-                    <thead class="table-dark text-white">
-                        <tr>
-                            <th>Ticket ID</th>
-                            <th>Subject</th>
-                            <th>Description</th>
-                            <th>Status</th>
-                            <th>Priority</th>
-                            <th>Created At</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="ticket" items="${tickets}">
-                            <tr>
-                                <td><c:out value="${ticket.id}"/></td>
-                                <td><c:out value="${ticket.subject}"/></td>
-                                <td><c:out value="${ticket.description}"/></td>
-                                <td>
-                                    <span class="badge 
-                                        ${ticket.status == 'OPEN' ? 'bg-warning text-dark' : ''}
-                                        ${ticket.status == 'IN_PROGRESS' ? 'bg-info text-dark' : ''}
-                                        ${ticket.status == 'RESOLVED' ? 'bg-success' : ''}
-                                        ${ticket.status == 'CLOSED' ? 'bg-secondary' : ''}">
-                                        ${ticket.status}
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="badge 
-                                        ${ticket.priority == 'LOW' ? 'bg-secondary' : ''}
-                                        ${ticket.priority == 'MEDIUM' ? 'bg-primary' : ''}
-                                        ${ticket.priority == 'HIGH' ? 'bg-danger' : ''}">
-                                        ${ticket.priority}
-                                    </span>
-                                </td>
-                                <td><fmt:formatDate value="${ticket.createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-            </div>
-        </c:otherwise>
-    </c:choose>
+  <!-- Page Title -->
+  <h3 class="mb-4 page-title">
+    <i class="bi bi-life-preserver me-2"></i> Submit a Support Ticket
+  </h3>
+
+  <!-- Ticket Form -->
+  <div class="card mb-5">
+    <div class="card-body">
+      <form method="post" action="${pageContext.request.contextPath}/customer/support-ticket" novalidate>
+        <div class="mb-3">
+          <label for="subject" class="form-label">Subject</label>
+          <select id="subject" name="subject" class="form-select" required>
+            <option value="" disabled selected>-- Select Subject --</option>
+            <option value="Account Issue">Account Issue</option>
+            <option value="Transaction Problem">Transaction Problem</option>
+            <option value="Technical Support">Technical Support</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea id="description" name="description" rows="5" class="form-control"
+                    placeholder="Describe your issue" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          <i class="bi bi-send me-1"></i> Submit Ticket
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Your Tickets -->
+  <h4 class="mb-4 page-title">
+    <i class="bi bi-card-list me-2"></i> Your Support Tickets
+  </h4>
+
+  <c:choose>
+    <c:when test="${empty tickets}">
+      <div class="empty-state">
+        <i class="bi bi-ticket-detailed" style="font-size: 2rem;"></i>
+        <p class="mt-2">You have no support tickets.</p>
+      </div>
+    </c:when>
+    <c:otherwise>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Ticket ID</th>
+              <th>Subject</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Priority</th>
+              <th>Created At</th>
+            </tr>
+          </thead>
+          <tbody>
+            <c:forEach var="ticket" items="${tickets}">
+              <tr>
+                <td>${ticket.id}</td>
+                <td>${ticket.subject}</td>
+                <td style="max-width: 250px;">
+                  <div class="text-truncate" title="${ticket.description}">
+                    ${ticket.description}
+                  </div>
+                </td>
+                <td>
+                  <span class="badge status-${ticket.status.toLowerCase().replace(' ', '-')}">
+                    ${ticket.status}
+                  </span>
+                </td>
+                <td>
+                  <span class="badge priority-${ticket.priority.toLowerCase()}">
+                    ${ticket.priority}
+                  </span>
+                </td>
+                <td><fmt:formatDate value="${ticket.createdAt}" pattern="dd-MMM-yyyy HH:mm"/></td>
+              </tr>
+            </c:forEach>
+          </tbody>
+        </table>
+      </div>
+    </c:otherwise>
+  </c:choose>
 </div>
 
 <jsp:include page="/components/footer.jsp"/>
 
-<style>
-    /* Gradient heading */
-    .text-gradient {
-        background: linear-gradient(90deg, #ff416c, #ff4b2b);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    /* Gradient button */
-    .btn-gradient {
-        background: linear-gradient(90deg, #ff416c, #ff4b2b);
-        border: none;
-        color: #fff !important;
-        border-radius: 12px;
-        transition: all 0.3s ease;
-    }
-    .btn-gradient:hover {
-        background: linear-gradient(90deg, #ff4b2b, #ff416c);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(255, 65, 108, 0.4);
-    }
-
-    /* Glow effect */
-    .glow-btn {
-        box-shadow: 0 4px 10px rgba(255, 75, 43, 0.3);
-    }
-
-    /* Stylish inputs */
-    .stylish-input, .stylish-select {
-        border-radius: 10px;
-        transition: all 0.3s ease;
-    }
-    .stylish-input:focus, .stylish-select:focus {
-        border-color: #ff416c;
-        box-shadow: 0 0 8px rgba(255, 65, 108, 0.3);
-    }
-
-    /* Table hover highlight */
-    .table-hover tbody tr:hover {
-        background-color: rgba(255, 65, 108, 0.1);
-        transition: background-color 0.3s ease;
-    }
-
-    /* Fade-in animation */
-    .fade-in {
-        animation: fadeInUp 0.8s ease-in-out;
-    }
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-</style>
+</body>
+</html>
