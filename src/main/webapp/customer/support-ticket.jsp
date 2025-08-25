@@ -74,14 +74,17 @@
       font-weight: 500;
     }
 
-    .status-open       { background: #fff3cd; color: #856404; }
-    .status-in-progress { background: #d1ecf1; color: #0c5460; }
-    .status-resolved    { background: #d4edda; color: #155724; }
-    .status-closed      { background: #e9ecef; color: #495057; }
+  /* Status Colors */
+.status-open       { background: #ffc107; color: #212529; }   /* bright yellow */
+.status-in-progress { background: #0dcaf0; color: #fff; }     /* cyan/sky-blue */
+.status-resolved    { background: #28a745; color: #fff; }     /* strong green */
+.status-closed      { background: #6c757d; color: #fff; }     /* neutral gray */
 
-    .priority-low    { background: #e9ecef; color: #495057; }
-    .priority-medium { background: #d1ecf1; color: #0c5460; }
-    .priority-high   { background: #f8d7da; color: #721c24; }
+/* Priority Colors */
+.priority-low    { background: #6c757d; color: #fff; }        /* muted gray */
+.priority-medium { background: #0d6efd; color: #fff; }        /* blue */
+.priority-high   { background: #dc3545; color: #fff; }        /* red */
+
 
     /* Centered Empty State */
     .empty-state {
@@ -176,7 +179,6 @@
         <table class="table table-bordered table-hover align-middle">
           <thead>
             <tr>
-              <th>Ticket ID</th>
               <th>Subject</th>
               <th>Description</th>
               <th>Status</th>
@@ -187,7 +189,6 @@
           <tbody>
             <c:forEach var="ticket" items="${tickets}">
               <tr>
-                <td>${ticket.id}</td>
                 <td>${ticket.subject}</td>
                 <td style="max-width: 250px;">
                   <div class="text-truncate" title="${ticket.description}">

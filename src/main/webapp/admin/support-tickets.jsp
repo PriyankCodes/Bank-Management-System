@@ -90,7 +90,7 @@
 									type="hidden" name="action" value="updateStatus" /> <select
 									name="status" class="form-select form-select-sm"
 									onchange="this.form.submit()"
-									${ticket.status == 'CLOSED' ? 'disabled' : ''}>
+									${ticket.status == 'CLOSED' || ticket.status == 'RESOLVED' ?  'disabled' : ''}>
 									<option value="OPEN"
 										${ticket.status == 'OPEN' ? 'selected' : ''}>OPEN</option>
 									<option value="IN_PROGRESS"
@@ -110,7 +110,9 @@
 								<input type="hidden" name="ticketId" value="${ticket.id}" /> <input
 									type="hidden" name="action" value="updatePriority" /> <select
 									name="priority" class="form-select form-select-sm"
-									onchange="this.form.submit()">
+									onchange="this.form.submit()"
+									    ${ticket.status == 'CLOSED' || ticket.status == 'RESOLVED' ? 'disabled' : ''}>
+									
 									<option value="LOW"
 										${ticket.priority == 'LOW' ? 'selected' : ''}>LOW</option>
 									<option value="MEDIUM"

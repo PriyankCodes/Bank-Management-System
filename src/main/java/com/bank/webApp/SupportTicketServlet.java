@@ -70,7 +70,15 @@ public class SupportTicketServlet extends HttpServlet {
         }
 
         try {
-            boolean created = supportTicketService.createTicket(userId, subject, description);
+            // ✅ First get customerId from userId
+            Customer customer = customerService.findByUserId(userId);
+            if (customer == null) {
+                session.setAttribute("flash_error", "Customer profile not found.");
+                resp.sendRedirect(req.getContextPath() + "/customer/support-ticket");
+                return;
+            }
+
+            boolean created = supportTicketService.createTicket(customer.getId(), subject, description);
             if (created) {
                 session.setAttribute("flash_success", "Support ticket submitted successfully.");
             } else {
@@ -82,4 +90,5 @@ public class SupportTicketServlet extends HttpServlet {
         }
         resp.sendRedirect(req.getContextPath() + "/customer/support-ticket");
     }
+
 }
