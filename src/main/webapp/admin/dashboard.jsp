@@ -35,7 +35,7 @@
     <div class="col-md-3 col-sm-6">
       <div class="card text-white shadow-lg h-100 dashboard-card" style="background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);">
         <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
-          <h5 class="card-title fw-bold">Soft Deleted Customers</h5>
+          <h5 class="card-title fw-bold">Inactive Customers</h5>
           <p class="card-text display-4 fw-bold">${softDeletedCustomers}</p>
         </div>
       </div>
@@ -43,7 +43,7 @@
     <div class="col-md-3 col-sm-6">
       <div class="card text-white shadow-lg h-100 dashboard-card" style="background: linear-gradient(135deg, #36d1dc 0%, #5b86e5 100%);">
         <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
-          <h5 class="card-title fw-bold">Average Interest Rate (%)</h5>
+          <h5 class="card-title fw-bold">FD Average Interest Rate (%)</h5>
           <p class="card-text display-4 fw-bold">${avgInterestRate}</p>
         </div>
       </div>
